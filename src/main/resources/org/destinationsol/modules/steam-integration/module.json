@@ -1,0 +1,15 @@
+{
+    "id" : "steam-integration",
+    "version" : "0.1.0",
+    "displayName" : "Steam Integration",
+    "description" : "Integrates the game with the Steam API. Provides workshop functionality.",
+    "dependencies" :  [
+        {
+            "id" : "core"
+        },
+        {
+            "id" : "engine",
+            "optional": true
+        }
+    ]
+}

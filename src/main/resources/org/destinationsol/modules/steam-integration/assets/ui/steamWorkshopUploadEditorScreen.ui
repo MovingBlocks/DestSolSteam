@@ -1,0 +1,238 @@
+{
+    "type": "SteamWorkshopUploadEditorScreen",
+    "skin": "engine:mainMenu",
+    "contents": {
+        "type": "RelativeLayout",
+        "contents": [
+            {
+                "type": "UIBackingBox",
+                "content": {
+                    "type": "RelativeLayout",
+                    "contents": [
+                        {
+                            "type": "UILabel",
+                            "id": "headerText",
+                            "family": "menuHeaderText",
+                            "text": "Steam Workshop Upload",
+                            "layoutInfo": {
+                                "position-horizontal-center": {},
+                                "position-top": {
+                                    "target": "TOP",
+                                    "offset": 32
+                                },
+                                "use-content-height": true
+                            }
+                        },
+                        {
+                            "type": "UIDropdown",
+                            "id": "visibilityDropdown",
+                            "options": ["Public", "Friends-only", "Private"],
+                            "layoutInfo": {
+                                "position-top": {
+                                    "offset": 32
+                                },
+                                "position-right": {
+                                    "offset": 32
+                                },
+                                "use-content-width": true,
+                                "use-content-height": true
+                            }
+                        },
+                        {
+                            "type": "UILabel",
+                            "id": "nameInputLabel",
+                            "family": "menuHeaderText",
+                            "text": "Name:",
+                            "layoutInfo": {
+                                "position-horizontal-center": {},
+                                "position-top": {
+                                    "widget": "headerText",
+                                    "target": "BOTTOM",
+                                    "offset": 16
+                                },
+                                "position-left": {
+                                    "offset": 32
+                                },
+                                "position-right": {
+                                    "offset": 32
+                                },
+                                "use-content-height": true
+                            }
+                        },
+                        {
+                            "type": "UIText",
+                            "id": "nameInput",
+                            "text": "",
+                            "layoutInfo": {
+                                "position-horizontal-center": {},
+                                "position-top": {
+                                    "widget": "nameInputLabel",
+                                    "target": "BOTTOM",
+                                    "offset": 8
+                                },
+                                "position-left": {
+                                    "offset": 32
+                                },
+                                "position-right": {
+                                    "offset": 32
+                                },
+                                "use-content-height": true
+                            }
+                        },
+                        {
+                            "type": "UILabel",
+                            "id": "descriptionInputLabel",
+                            "family": "menuHeaderText",
+                            "text": "Description:",
+                            "layoutInfo": {
+                                "position-horizontal-center": {},
+                                "position-top": {
+                                    "widget": "nameInput",
+                                    "target": "BOTTOM",
+                                    "offset": 8
+                                },
+                                "position-left": {
+                                    "offset": 32
+                                },
+                                "position-right": {
+                                    "offset": 32
+                                },
+                                "use-content-height": true
+                            }
+                        },
+                        {
+                            "type": "UIText",
+                            "id": "descriptionInput",
+                            "multiline": true,
+                            "text": "",
+                            "layoutInfo": {
+                                "position-horizontal-center": {},
+                                "position-top": {
+                                    "widget": "descriptionInputLabel",
+                                    "target": "BOTTOM",
+                                    "offset": 8
+                                },
+                                "position-bottom": {
+                                    "widget": "updateNoteInputLabel",
+                                    "target": "TOP",
+                                    "offset": 8
+                                },
+                                "position-left": {
+                                    "offset": 32
+                                },
+                                "position-right": {
+                                    "offset": 32
+                                }
+                            }
+                        },
+                        {
+                            "type": "UILabel",
+                            "id": "updateNoteInputLabel",
+                            "family": "menuHeaderText",
+                            "text": "Update Note:",
+                            "layoutInfo": {
+                                "position-horizontal-center": {},
+                                "position-bottom": {
+                                    "widget": "updateNoteInput",
+                                    "target": "TOP",
+                                    "offset": 8
+                                },
+                                "position-left": {
+                                    "offset": 32
+                                },
+                                "position-right": {
+                                    "offset": 32
+                                },
+                                "use-content-height": true
+                            }
+                        },
+                        {
+                            "type": "UIText",
+                            "id": "updateNoteInput",
+                            "text": "",
+                            "layoutInfo": {
+                                "position-horizontal-center": {},
+                                "position-bottom": {
+                                    "widget": "actionButtonsLayout",
+                                    "target": "TOP",
+                                    "offset": 8
+                                },
+                                "position-left": {
+                                    "offset": 32
+                                },
+                                "position-right": {
+                                    "offset": 32
+                                },
+                                "use-content-height": true
+                            }
+                        },
+                        {
+                            "type": "ColumnLayout",
+                            "id": "actionButtonsLayout",
+                            "columns": "2",
+                            "column-widths": [0.5, 0.5],
+                            "horizontalSpacing": 8,
+                            "contents": [
+                                {
+                                    "type": "UIButton",
+                                    "id": "cancelButton",
+                                    "text": "Cancel"
+                                },
+                                {
+                                    "type": "UIButton",
+                                    "id": "uploadButton",
+                                    "text": "Upload"
+                                }
+                            ],
+                            "layoutInfo": {
+                                "position-horizontal-center": {},
+                                "position-bottom": {
+                                    "offset": 32
+                                },
+                                "position-left": {
+                                    "offset": 32
+                                },
+                                "position-right": {
+                                    "offset": 32
+                                },
+                                "use-content-height": true
+                            }
+                        },
+                        {
+                            "type": "UILoadBar",
+                            "id": "uploadProgressBar",
+                            "layoutInfo": {
+                                "position-bottom": {
+                                    "offset": 32
+                                },
+                                "position-left": {
+                                    "offset": 32
+                                },
+                                "position-right": {
+                                    "offset": 32
+                                },
+                                "use-content-height": true
+                            }
+                        }
+                    ]
+                },
+                "layoutInfo": {
+                    "position-horizontal-center": {},
+                    "position-vertical-center": {},
+                    "position-top": {
+                        "offset": 64
+                    },
+                    "position-bottom": {
+                        "offset": 64
+                    },
+                    "position-left": {
+                        "offset": 64
+                    },
+                    "position-right": {
+                        "offset": 64
+                    }
+                }
+            }
+        ]
+    }
+}

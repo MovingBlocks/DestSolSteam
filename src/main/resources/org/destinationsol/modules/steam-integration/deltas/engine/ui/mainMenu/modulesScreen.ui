@@ -1,0 +1,22 @@
+{
+    "type": "SteamIntegratedModulesScreen",
+    "contents": {
+        "contents": [
+            {
+                "type": "UIButton",
+                "id": "steamWorkshopButton",
+                "text": "Steam Workshop",
+                "layoutInfo": {
+                    "position-bottom": {
+                        "offset": 128
+                    },
+                    "position-right": {
+                        "offset": 32
+                    },
+                    "use-content-width": "true",
+                    "use-content-height": true
+                }
+            }
+        ]
+    }
+}
