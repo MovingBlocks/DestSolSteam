@@ -140,7 +140,8 @@
                 }
             },
             {
-                "type": "UIButton",
+                "type": "KeyActivatedButton",
+                "key": "escape",
                 "id": "confirmButton",
                 "text": "Confirm",
                 "layoutInfo": {

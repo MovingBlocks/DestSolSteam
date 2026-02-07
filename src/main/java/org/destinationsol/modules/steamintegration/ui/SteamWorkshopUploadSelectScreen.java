@@ -16,10 +16,13 @@
 
 package org.destinationsol.modules.steamintegration.ui;
 
+import org.destinationsol.SolApplication;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
+import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
 import org.terasology.gestalt.module.Module;
 import org.terasology.gestalt.naming.Name;
+import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.itemRendering.StringTextRenderer;
 import org.terasology.nui.widgets.UIButton;
 import org.terasology.nui.widgets.UIList;
@@ -34,6 +37,8 @@ import java.util.stream.Collectors;
 public class SteamWorkshopUploadSelectScreen extends NUIScreenLayer {
     @Inject
     protected ModuleManager moduleManager;
+    @Inject
+    protected SolApplication solApplication;
 
     @Inject
     public SteamWorkshopUploadSelectScreen() {
@@ -58,7 +63,8 @@ public class SteamWorkshopUploadSelectScreen extends NUIScreenLayer {
         }
         moduleList.setList(modules);
 
-        UIButton cancelButton = find("cancelButton", UIButton.class);
+        KeyActivatedButton cancelButton = find("cancelButton", KeyActivatedButton.class);
+        cancelButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyEscape()));
         cancelButton.subscribe(button -> nuiManager.setScreen(nuiManager.createScreen("steam-integration:steamWorkshopScreen")));
 
         UIButton uploadButton = find("uploadButton", UIButton.class);

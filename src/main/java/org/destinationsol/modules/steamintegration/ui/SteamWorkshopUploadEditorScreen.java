@@ -25,14 +25,17 @@ import com.codedisaster.steamworks.SteamUGCCallback;
 import com.codedisaster.steamworks.SteamUGCUpdateHandle;
 import com.codedisaster.steamworks.SteamUtils;
 import com.codedisaster.steamworks.SteamUtilsCallback;
+import org.destinationsol.SolApplication;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
+import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.i18n.I18nMap;
 import org.terasology.gestalt.module.Module;
 import org.terasology.gestalt.module.ModuleMetadata;
 import org.terasology.gestalt.module.ModuleMetadataJsonAdapter;
+import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.databinding.ReadOnlyBinding;
 import org.terasology.nui.widgets.UIButton;
 import org.terasology.nui.widgets.UIDropdown;
@@ -54,12 +57,14 @@ public class SteamWorkshopUploadEditorScreen extends NUIScreenLayer implements S
     private static final Logger logger = LoggerFactory.getLogger(SteamWorkshopUploadEditorScreen.class);
     @Inject
     protected ModuleManager moduleManager;
+    @Inject
+    protected SolApplication solApplication;
     private Module targetModule;
     private UIDropdown<SteamRemoteStorage.PublishedFileVisibility> visibilityDropdown;
     private UIText nameInput;
     private UIText descriptionInput;
     private UIText updateNoteInput;
-    private UIButton cancelButton;
+    private KeyActivatedButton cancelButton;
     private UIButton uploadButton;
     private UILoadBar uploadProgressBar;
     private int steamAppId;
@@ -100,7 +105,8 @@ public class SteamWorkshopUploadEditorScreen extends NUIScreenLayer implements S
 
         steamUGC = new SteamUGC(this);
 
-        cancelButton = find("cancelButton", UIButton.class);
+        cancelButton = find("cancelButton", KeyActivatedButton.class);
+        cancelButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyEscape()));
         cancelButton.subscribe(button -> nuiManager.setScreen(nuiManager.createScreen("steam-integration:steamWorkshopScreen")));
 
         uploadButton = find("uploadButton", UIButton.class);

@@ -31,12 +31,14 @@ import com.codedisaster.steamworks.SteamUtilsCallback;
 import org.destinationsol.SolApplication;
 import org.destinationsol.modules.ModuleManager;
 import org.destinationsol.ui.nui.NUIScreenLayer;
+import org.destinationsol.ui.nui.widgets.KeyActivatedButton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.gestalt.module.Module;
 import org.terasology.gestalt.module.ModuleFactory;
 import org.terasology.gestalt.module.ModuleMetadata;
 import org.terasology.gestalt.module.ModuleMetadataJsonAdapter;
+import org.terasology.nui.backends.libgdx.GDXInputUtil;
 import org.terasology.nui.databinding.ReadOnlyBinding;
 import org.terasology.nui.itemRendering.StringTextRenderer;
 import org.terasology.nui.widgets.UIButton;
@@ -164,7 +166,8 @@ public class SteamWorkshopScreen extends NUIScreenLayer implements SteamUGCCallb
             nuiManager.setScreen(uploadScreen);
         });
 
-        UIButton confirmButton = find("confirmButton", UIButton.class);
+        KeyActivatedButton confirmButton = find("confirmButton", KeyActivatedButton.class);
+        confirmButton.setKey(GDXInputUtil.GDXToNuiKey(solApplication.getOptions().getKeyEscape()));
         confirmButton.subscribe(button -> {
             nuiManager.setScreen(solApplication.getMenuScreens().modules);
         });
