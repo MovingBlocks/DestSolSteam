@@ -58,8 +58,12 @@ public final class SolSteamDesktop {
 
     public static void main(String[] argv) {
         try {
-            SteamAPI.loadLibraries(new SteamLibraryLoaderGdx());
-            SteamAPI.init();
+            if (!SteamAPI.loadLibraries(new SteamLibraryLoaderGdx())) {
+                throw new RuntimeException("Failed to load Steam natives.");
+            }
+            if (!SteamAPI.init()) {
+                throw new RuntimeException("Failed to initialise Steam");
+            }
         } catch (Exception e) {
             throw new RuntimeException("Failed to initialise Steam", e);
         }

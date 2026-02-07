@@ -17,6 +17,7 @@
 plugins {
     id 'destination-sol-common'
     id 'destination-sol-jre'
+    id 'edu.sc.seis.launch4j' version '4.0.0'
 }
 
 project.ext.mainClassName = "org.destinationsol.desktop.SolSteamDesktop"
@@ -62,4 +63,47 @@ jar {
         attributes("Class-Path": manifestClasspath)
         attributes "SplashScreen-Image": "mainMenuLogo.png"
     }
+}
+
+tasks.register('steamLibsDist', Copy) {
+    dependsOn jar
+
+    from jar
+    from configurations.runtimeClasspath
+    into("${distsDirectory.getAsFile().get()}/app/libs")
+}
+
+tasks.register('copySteamLaunchers', Copy) {
+    description = "Copy steam launchers into the distribution folder."
+
+    dependsOn createExe
+
+    from("$projectDir/launcher")
+    include('*.sh', '*.exe')
+    into("${distsDirectory.getAsFile().get()}/app")
+}
+
+tasks.register('distSteam') {
+    description = "Creates an application package suitable for deploying to steam."
+    group 'Distribution'
+
+    dependsOn ':desktop:libsDist'
+    dependsOn ':desktop:moduleDist'
+    dependsOn ':desktop:copyLaunchers'
+    dependsOn steamLibsDist
+    dependsOn copySteamLaunchers
+
+    copy {
+        from("${project(':desktop').distsDirectory.getAsFile().get()}/app")
+        into("${distsDirectory.getAsFile().get()}/app")
+    }
+}
+
+launch4j {
+    outfile = 'solSteam.exe'
+    libraryDir = 'libs'
+    icon = "${projectDir}/launcher/sol.ico"
+    dontWrapJar = true
+    bundledJrePath = 'lwjre'
+    copyConfigurable = []
 }
