@@ -58,7 +58,10 @@ public class SteamWorkshopUploadSelectScreen extends NUIScreenLayer {
         EXCLUDED_MODULES.add(new Name("core"));
         for (Name moduleId : moduleManager.getRegistry().getModuleIds()) {
             if (!EXCLUDED_MODULES.contains(moduleId)) {
-                modules.add(moduleManager.getRegistry().getLatestModuleVersion(moduleId));
+                Module module = moduleManager.getRegistry().getLatestModuleVersion(moduleId);
+                if (!module.getResources().getRootPaths().stream().anyMatch(path -> path.endsWith(".jar"))) {
+                    modules.add(module);
+                }
             }
         }
         moduleList.setList(modules);
