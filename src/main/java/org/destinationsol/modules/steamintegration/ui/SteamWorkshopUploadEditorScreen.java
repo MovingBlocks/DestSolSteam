@@ -52,6 +52,8 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class SteamWorkshopUploadEditorScreen extends NUIScreenLayer implements SteamUGCCallback, SteamUtilsCallback {
     private static final Logger logger = LoggerFactory.getLogger(SteamWorkshopUploadEditorScreen.class);
@@ -218,9 +220,28 @@ public class SteamWorkshopUploadEditorScreen extends NUIScreenLayer implements S
             Path moduleCodeRoot = moduleRootPath.resolve("build/classes");
             if (moduleCodeRoot.toFile().exists()) {
                 Files.createDirectories(ugcUploadTempPath.resolve("build/classes"));
-                copyDirectory(moduleRootPath.resolve("build/classes"), ugcUploadTempPath.resolve("build/classes"));
+                copyDirectory(moduleCodeRoot, ugcUploadTempPath.resolve("build/classes"));
             }
             Files.copy(moduleRootPath.resolve("module.json"), ugcUploadTempPath.resolve("module.json"));
+
+            final String[] filePatternsToInclude = {
+                    // Read-me files
+                    ".*README.*",
+                    // Licence files (including variations on spelling)
+                    ".*LICENSE.*", ".*LICENCE.*", ".*COPYING.*", ".*NOTICE.*"
+            };
+
+            Files.walk(moduleRootPath, 1).filter(Files::isRegularFile).forEach(filePath -> {
+                for (String filePattern : filePatternsToInclude) {
+                    if (Pattern.matches(filePattern, filePath.getFileName().toString().toUpperCase(Locale.ENGLISH))) {
+                        try {
+                            Files.copy(filePath, ugcUploadTempPath.resolve(filePath.getFileName()));
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            });
 
             Path modulePreviewImage = moduleRootPath.resolve("preview.png");
             if (modulePreviewImage.toFile().exists()) {
