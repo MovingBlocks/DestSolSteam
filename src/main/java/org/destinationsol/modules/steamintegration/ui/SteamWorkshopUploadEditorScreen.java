@@ -166,7 +166,9 @@ public class SteamWorkshopUploadEditorScreen extends NUIScreenLayer implements S
 
             @Override
             public FileVisitResult visitFile(Path path, BasicFileAttributes basicFileAttributes) throws IOException {
-                Files.copy(path, destination.resolve(source.relativize(path)), StandardCopyOption.REPLACE_EXISTING);
+                if (Files.isRegularFile(path)) {
+                    Files.copy(path, destination.resolve(source.relativize(path)), StandardCopyOption.REPLACE_EXISTING);
+                }
                 return super.visitFile(path, basicFileAttributes);
             }
         });
@@ -214,14 +216,21 @@ public class SteamWorkshopUploadEditorScreen extends NUIScreenLayer implements S
 
         try {
             ugcUploadTempPath = Files.createTempDirectory("DestinationSol_" + targetModule.getId().toString());
-            copyDirectory(moduleRootPath.resolve("assets"), ugcUploadTempPath.resolve("assets"));
-            copyDirectory(moduleRootPath.resolve("deltas"), ugcUploadTempPath.resolve("deltas"));
-            copyDirectory(moduleRootPath.resolve("overrides"), ugcUploadTempPath.resolve("overrides"));
+
+            final String[] gestaltAssetDirectories = {"assets", "deltas", "overrides"};
+            for (String assetDirectory : gestaltAssetDirectories) {
+                Path assetRoot = moduleRootPath.resolve(assetDirectory);
+                if (assetRoot.toFile().exists()) {
+                    copyDirectory(assetRoot, ugcUploadTempPath.resolve(assetDirectory));
+                }
+            }
+
             Path moduleCodeRoot = moduleRootPath.resolve("build/classes");
             if (moduleCodeRoot.toFile().exists()) {
                 Files.createDirectories(ugcUploadTempPath.resolve("build/classes"));
                 copyDirectory(moduleCodeRoot, ugcUploadTempPath.resolve("build/classes"));
             }
+
             Files.copy(moduleRootPath.resolve("module.json"), ugcUploadTempPath.resolve("module.json"));
 
             final String[] filePatternsToInclude = {
